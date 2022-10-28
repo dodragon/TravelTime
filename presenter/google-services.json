@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "904857576840",
+    "project_id": "travel-time-ae6fe",
+    "storage_bucket": "travel-time-ae6fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904857576840:android:b47618c7319a20e209463d",
+        "android_client_info": {
+          "package_name": "com.dod.travel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904857576840-dn0bo55fope8gbl0qkj4v2l0lup69h53.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dod.travel",
+            "certificate_hash": "4915e2e66ba35b640abd82726cf655732cdfa091"
+          }
+        },
+        {
+          "client_id": "904857576840-l1qm84nbidgi82klrp8uf30fcsjr95ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjlFzC8cK5raQJ0F-pcJiIx8wEz20fd4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904857576840-l1qm84nbidgi82klrp8uf30fcsjr95ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
