@@ -54,7 +54,7 @@ class TravelActivity : AppCompatActivity() {
         }
 
         binding.swipe.setOnRefreshListener {
-            //TODO: Refresh
+            travelAdapter.refresh()
             binding.swipe.isRefreshing = false
         }
 
@@ -86,7 +86,7 @@ class TravelActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            //TODO: refresh
+            travelAdapter.refresh()
         }
     }
 
@@ -107,7 +107,7 @@ class TravelActivity : AppCompatActivity() {
         }
 
         viewModel.getTravelList(groupId).observe(this) { travelList ->
-
+            travelAdapter.submitData(this.lifecycle, travelList)
         }
     }
 }

@@ -49,21 +49,21 @@ class TravelInviteAdapter(
     ) : ViewHolder(binding.root) {
 
         fun bind(data: UserModel) {
-            if(data.idx != myId) {
-                binding.user = data
-                glide.load(data.profile).circleCrop().into(binding.profileImage)
+            binding.user = data
+            glide.load(data.profile).circleCrop().into(binding.profileImage)
 
-                binding.root.setOnClickListener {
-                    if(binding.checkbox.isChecked) {
-                        binding.checkbox.isChecked = false
-                        listener.deleteUser(data)
-                    }else {
-                        binding.checkbox.isChecked = true
-                        listener.addUser(data)
-                    }
+            binding.root.setOnClickListener {
+                if(binding.checkbox.isChecked) {
+                    binding.checkbox.isChecked = false
+                    listener.deleteUser(data)
+                }else {
+                    binding.checkbox.isChecked = true
+                    listener.addUser(data)
                 }
-            }else {
-                binding.root.visibility = View.GONE
+            }
+
+            if(data.idx == myId) {
+                binding.root.performClick()
             }
         }
     }

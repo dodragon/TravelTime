@@ -73,7 +73,7 @@ class TravelMakeActivity : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             selectedUserList = result.data!!.getSerializableExtra("userList") as ArrayList<UserModel>
-            binding.joinUserText.text = "참여인원 : ${selectedUserList.size+1}명"
+            binding.joinUserText.text = "참여인원 : ${selectedUserList.size}명"
         }
     }
 
@@ -227,6 +227,7 @@ class TravelMakeActivity : AppCompatActivity() {
         return TravelMakeModel(
             name = name,
             description = des,
+            groupId = groupId,
             budget = budget,
             startDate = startD,
             endDate = endD,
