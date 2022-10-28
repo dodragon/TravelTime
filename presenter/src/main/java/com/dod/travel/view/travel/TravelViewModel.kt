@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.dod.data.model.TravelModel
 import com.dod.data.model.UserModel
 import com.dod.data.repository.travel.TravelRepository
 
@@ -21,6 +22,9 @@ class TravelViewModel(
 
     fun getGroupUserList(groupId: Long): LiveData<PagingData<UserModel>> =
         repo.getGroupUsers(groupId).cachedIn(viewModelScope)
+
+    fun getTravelList(groupId: Long): LiveData<PagingData<TravelModel>> =
+        repo.getTravelList(groupId)
 
     @Suppress("UNCHECKED_CAST")
     class TravelFactory : ViewModelProvider.Factory {

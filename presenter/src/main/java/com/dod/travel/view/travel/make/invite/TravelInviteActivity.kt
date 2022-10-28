@@ -24,7 +24,7 @@ class TravelInviteActivity : AppCompatActivity(), UsersSelectListener {
     private var groupId = 0L
     private lateinit var groupName: String
 
-    private val selectedUsers = mutableListOf<UserModel>()
+    private val selectedUsers = arrayListOf<UserModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,19 +49,10 @@ class TravelInviteActivity : AppCompatActivity(), UsersSelectListener {
 
         binding.selectBtn.setOnClickListener {
             val resultIntent = Intent()
-            resultIntent.putExtra("idxList", getUserIdxList())
+            resultIntent.putExtra("userList", selectedUsers)
             setResult(RESULT_OK, resultIntent)
             finish()
         }
-    }
-
-    private fun getUserIdxList(): LongArray {
-        val userIdxList = LongArray(selectedUsers.size)
-        for((i, um) in selectedUsers.withIndex()){
-            userIdxList[i] = um.idx
-        }
-
-        return userIdxList
     }
 
     override fun addUser(user: UserModel) {

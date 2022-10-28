@@ -11,20 +11,27 @@ import android.util.Log
 import android.view.View.OnClickListener
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
+import com.dod.data.model.TravelModel
+import com.dod.data.model.UserModel
+import com.dod.data.model.request.TravelMakeModel
 import com.dod.travel.R
 import com.dod.travel.databinding.ActivityTravelMakeBinding
 import com.dod.travel.util.CalenderUtil
 import com.dod.travel.view.travel.make.invite.TravelInviteActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TravelMakeActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityTravelMakeBinding.inflate(layoutInflater) }
+    private val viewModel by lazy { ViewModelProvider(this,
+        TravelMakeViewModel.TravelMakeFactory())[TravelMakeViewModel::class.java] }
 
     private lateinit var groupName: String
 
-    private lateinit var selectedUserList: LongArray
+    private var selectedUserList = arrayListOf<UserModel>()
 
     private var groupId = 0L
     private var isStartDate = false
@@ -36,6 +43,7 @@ class TravelMakeActivity : AppCompatActivity() {
         groupId = intent.getLongExtra("groupId", 0L)
         groupName = intent.getStringExtra("groupName")!!
 
+        setObserver()
         initView()
     }
 
@@ -53,6 +61,10 @@ class TravelMakeActivity : AppCompatActivity() {
         binding.startTimeAdd.setOnClickListener(dateOnClick)
         binding.endDateAdd.setOnClickListener(dateOnClick)
         binding.endTimeAdd.setOnClickListener(dateOnClick)
+
+        binding.addBtn.setOnClickListener {
+            saveTravel()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -60,7 +72,7 @@ class TravelMakeActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            selectedUserList = result.data!!.getLongArrayExtra("idxList")!!
+            selectedUserList = result.data!!.getSerializableExtra("userList") as ArrayList<UserModel>
             binding.joinUserText.text = "참여인원 : ${selectedUserList.size+1}명"
         }
     }
@@ -181,6 +193,54 @@ class TravelMakeActivity : AppCompatActivity() {
             "0$num"
         }else {
             num.toString()
+        }
+    }
+
+    private fun saveTravel() {
+        val travelName = binding.name.text.toString()
+        val description = binding.description.text.toString()
+        val budget = binding.budget.text.toString()
+        val startDate = binding.startDateEdit.text.toString().replace("\n", " ")
+        val endDate = binding.endDateEdit.text.toString().replace("\n", " ")
+
+        if(travelName.isEmpty()){
+            Toast.makeText(this, "여행 이름을 정해주세요", Toast.LENGTH_SHORT).show()
+        }else {
+            try{
+                val budgetInt = budget.toInt()
+                if(startDate.isBlank() || startDate.length <= 10) {
+                    Toast.makeText(this, "시작일 날짜와 시간을 정해주세요.", Toast.LENGTH_SHORT).show()
+                }else if(endDate.isBlank() || endDate.length <= 10) {
+                    Toast.makeText(this, "종료일 날짜와 시간을 정해주세요.", Toast.LENGTH_SHORT).show()
+                }else {
+                    viewModel.makeTravel(makeTravel(
+                        travelName, description, budgetInt, startDate, endDate
+                    ))
+                }
+            }catch (e: Exception) {
+                Toast.makeText(this, "예산엔 숫자만 기입해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun makeTravel(name: String, des: String, budget: Int, startD: String, endD: String): TravelMakeModel {
+        return TravelMakeModel(
+            name = name,
+            description = des,
+            budget = budget,
+            startDate = startD,
+            endDate = endD,
+            userList = selectedUserList
+        )
+    }
+
+    private fun setObserver() {
+        viewModel.messageData.observe(this) { message ->
+            Toast.makeText(this, message.message, Toast.LENGTH_SHORT).show()
+            if(!message.isError) {
+                setResult(RESULT_OK)
+                finish()
+            }
         }
     }
 }

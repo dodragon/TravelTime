@@ -7,6 +7,7 @@ data class TravelModel(
     val budget: Int,
     val group: GroupModel,
     val joinUserEa: Int,
+    val userList: List<UserModel>,
     val startDate: String,
     val endDate: String,
     val isEnd: Boolean,

@@ -1,6 +1,7 @@
 package com.dod.data
 
 import com.dod.data.api.GroupApi
+import com.dod.data.api.TravelApi
 import com.dod.data.api.UserApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,6 +34,7 @@ object RetrofitInstance {
 
     val userApi: UserApi by lazy { retrofit.create(UserApi::class.java) }
     val groupApi: GroupApi by lazy { retrofit.create(GroupApi::class.java) }
+    val travelApi: TravelApi by lazy { retrofit.create(TravelApi::class.java) }
 
     class AuthInterceptor : Interceptor {
 
